@@ -34,7 +34,7 @@ export default function Register() {
         displayName: name,
       });
 
-      navigate('/');
+      navigate('/home');
     } catch (err: any) {
       setError(err.message);
     }

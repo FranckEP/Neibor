@@ -47,7 +47,7 @@ export default function Register() {
         {" "}
         {/* Set a fixed height */}
         <img
-          src="src\assets\background.svg"
+          src="public\assets\background.svg"
           alt="Background"
           className="w-full h-full object-cover" // Ensures the image covers the div
         />
@@ -58,7 +58,7 @@ export default function Register() {
         <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
           {/* Logo empresa */}
           <div className="flex justify-center mb-6">
-            <img src="src\assets\logo.svg" alt="Logo Empresa" className="h-32 object-contain" />
+            <img src="public\assets\logo.svg" alt="Logo Empresa" className="h-32 object-contain" />
           </div>
 
           <h2 className="text-2xl font-semibold mb-6 text-center text-[#023047]">Registrarse como Propietario</h2>

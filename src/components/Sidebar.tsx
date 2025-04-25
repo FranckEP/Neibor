@@ -38,7 +38,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isExpanded, setIsExpanded }) => {
       {/* Logo */}
       <div className="flex items-center gap-2 p-4 border-b border-white/10">
         <img
-          src="src\assets\logo2.svg"
+          src="public\assets\logo2.svg"
           alt="Logo Empresa"
           className="h-10 object-contain"
         />

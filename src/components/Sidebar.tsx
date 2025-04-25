@@ -22,7 +22,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 h-screen bg-[#023047] text-white flex flex-col justify-between">
+    <aside className="w-64 h-screen bg-[#023047] text-white flex flex-col justify-between fixed">
       <div>
         <div className="text-2xl font-bold p-6 border-b border-white/10">
           Neibor

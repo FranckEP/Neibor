@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Verdana', 'sans-serif'],
+        sans: ['Verdana','sans-serif'],
       },
       colors: {
         primary: {

@@ -1,21 +1,21 @@
-import { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase/config';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase/config";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/home');
+      navigate("/home");
     } catch (err: any) {
       setError(err.message);
     }
@@ -24,8 +24,14 @@ export default function Login() {
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
       {/* Parte izquierda con imagen */}
-      <div className="hidden md:block bg-cover bg-center" style={{ backgroundImage: `url('/your-image.jpg')` }}>
-        {/* Puedes poner un overlay si quieres: bg-black/40 */}
+      <div className="hidden md:block relative overflow-hidden">
+        {" "}
+        {/* Set a fixed height */}
+        <img
+          src="src\assets\background.svg"
+          alt="Background"
+          className="w-full h-full object-cover" // Ensures the image covers the div
+        />
       </div>
 
       {/* Parte derecha con formulario */}
@@ -33,10 +39,16 @@ export default function Login() {
         <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
           {/* Logo arriba */}
           <div className="flex justify-center mb-6">
-            <img src="/logo.png" alt="Logo Empresa" className="h-16 object-contain" />
+            <img
+              src="src\assets\logo.svg"
+              alt="Logo Empresa"
+              className="h-32 object-contain"
+            />
           </div>
 
-          <h2 className="text-2xl font-semibold mb-6 text-center text-[#023047]">Iniciar Sesión</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-center text-[#023047]">
+            Iniciar Sesión
+          </h2>
 
           <form onSubmit={handleLogin}>
             <input
@@ -50,7 +62,7 @@ export default function Login() {
 
             <div className="relative mb-4">
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 placeholder="Contraseña"
                 className="w-full p-2 border border-gray-300 rounded pr-10"
                 value={password}
@@ -76,7 +88,7 @@ export default function Login() {
 
             <button
               type="button"
-              onClick={() => navigate('/register')}
+              onClick={() => navigate("/register")}
               className="w-full mt-3 text-sm text-[#023047] underline hover:text-[#FB8500] transition"
             >
               ¿No tienes cuenta? Regístrate

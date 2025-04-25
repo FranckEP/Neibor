@@ -43,17 +43,22 @@ export default function Register() {
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
       {/* Imagen izquierda */}
-      <div
-        className="hidden md:block bg-cover bg-center"
-        style={{ backgroundImage: `url('/your-image.jpg')` }}
-      ></div>
+      <div className="hidden md:block relative overflow-hidden">
+        {" "}
+        {/* Set a fixed height */}
+        <img
+          src="src\assets\background.svg"
+          alt="Background"
+          className="w-full h-full object-cover" // Ensures the image covers the div
+        />
+      </div>
 
       {/* Formulario derecho */}
       <div className="flex items-center justify-center p-6 bg-gray-100">
         <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
           {/* Logo empresa */}
           <div className="flex justify-center mb-6">
-            <img src="/logo.png" alt="Logo Empresa" className="h-16 object-contain" />
+            <img src="src\assets\logo.svg" alt="Logo Empresa" className="h-32 object-contain" />
           </div>
 
           <h2 className="text-2xl font-semibold mb-6 text-center text-[#023047]">Registrarse como Propietario</h2>

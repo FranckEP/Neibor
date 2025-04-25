@@ -28,7 +28,7 @@ export default function Login() {
         {" "}
         {/* Set a fixed height */}
         <img
-          src="public\assets\background.svg"
+          src="\assets\background.svg"
           alt="Background"
           className="w-full h-full object-cover" // Ensures the image covers the div
         />
@@ -40,7 +40,7 @@ export default function Login() {
           {/* Logo arriba */}
           <div className="flex justify-center mb-6">
             <img
-              src="public\assets\logo.svg"
+              src="\assets\logo.svg"
               alt="Logo Empresa"
               className="h-32 object-contain"
             />

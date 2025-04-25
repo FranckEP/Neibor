@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, LogOut, User} from "lucide-react";
+import { Home, LogOut, User } from "lucide-react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/config";
 
@@ -38,7 +38,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isExpanded, setIsExpanded }) => {
       {/* Logo */}
       <div className="flex items-center gap-2 p-4 border-b border-white/10">
         <img
-          src="public\assets\logo2.svg"
+          src="\assets\logo2.svg"
           alt="Logo Empresa"
           className="h-10 object-contain"
         />

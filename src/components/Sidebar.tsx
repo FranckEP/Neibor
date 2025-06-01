@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, LogOut, User } from "lucide-react";
+import { Home, LogOut, User, Database, HandCoins} from "lucide-react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/config";
 
@@ -15,6 +15,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isExpanded, setIsExpanded }) => {
 
   const navItems = [
     { label: "Inicio", path: "/home", icon: Home },
+    { label: "Propietarios", path: "/propietarios", icon: Database },
+    { label: "Pagos Administración", path: "/pagosAdmin", icon: HandCoins },
     { label: "Perfil", path: "/perfil", icon: User },
   ];
 

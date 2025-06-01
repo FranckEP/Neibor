@@ -12,6 +12,8 @@ import PerfilPage from "../pages/Profile";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import { Loader, MantineProvider } from "@mantine/core";
+import PropietariosPage from "../pages/Propietarios";
+import PagoAdmin from "../pages/PagoAdmin";
 
 const App: React.FC = () => {
   const { user, loading } = useAuth();
@@ -47,6 +49,8 @@ const App: React.FC = () => {
             path="/perfil"
             element={user ? <PerfilPage /> : <Navigate to="/login" />}
           />
+          <Route path="/propietarios" element={user ? <PropietariosPage /> : <Navigate to="/login" />} />
+          <Route path="/pagosAdmin" element={user ? <PagoAdmin /> : <Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="*" element={<Navigate to="/home" />} />

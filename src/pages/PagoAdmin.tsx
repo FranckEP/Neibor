@@ -96,7 +96,7 @@ export default function PagoAdmin() {
             <select
               value={torreSeleccionada}
               onChange={(e) => setTorreSeleccionada(e.target.value)}
-              className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
             >
               <option value="">Selecciona una torre</option>
               {torres.map((t) => (
@@ -114,7 +114,7 @@ export default function PagoAdmin() {
               type="month"
               value={fecha}
               onChange={(e) => setFecha(e.target.value)}
-              className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
             />
           </div>
         </div>
@@ -135,7 +135,10 @@ export default function PagoAdmin() {
             </thead>
             <tbody>
               {propietarios.map((prop) => (
-                <tr key={prop.apartamento} className="hover:bg-gray-50 transition duration-200">
+                <tr
+                  key={prop.apartamento}
+                  className="hover:bg-gray-50 transition duration-200"
+                >
                   <td className="p-4 border-b">{prop.apartamento}</td>
                   <td className="p-4 border-b">{prop.nombre}</td>
                   <td className="p-4 border-b">

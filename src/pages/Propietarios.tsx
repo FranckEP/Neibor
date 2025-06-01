@@ -52,6 +52,16 @@ export default function GestionTorresPage() {
       setErrorNuevo("El nombre de la torre es requerido.");
       return;
     }
+
+    // Validación contra torres duplicadas (case insensitive)
+    const existeTorre = tablas.some(
+      (tabla) => tabla.nombre.toLowerCase() === nombreNuevo.trim().toLowerCase()
+    );
+    if (existeTorre) {
+      setErrorNuevo("Ya existe una torre con ese nombre.");
+      return;
+    }
+
     setErrorNuevo("");
     await addDoc(collection(db, "tablas_propietarios"), {
       nombre: nombreNuevo.trim(),

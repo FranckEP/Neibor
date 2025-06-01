@@ -21,7 +21,9 @@ export default function TablaPropietarios({
   onActualizar,
   onEliminar,
 }: Props) {
-  const [propietarios, setPropietarios] = useState<Propietario[]>(tabla.propietarios);
+  const [propietarios, setPropietarios] = useState<Propietario[]>(
+    tabla.propietarios
+  );
   const [nuevo, setNuevo] = useState<Propietario>({
     apartamento: "",
     nombre: "",
@@ -31,9 +33,51 @@ export default function TablaPropietarios({
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editData, setEditData] = useState<Propietario | null>(null);
   const [notificacion, setNotificacion] = useState<string | null>(null); // Estado para la notificación
+  const [error, setError] = useState<string | null>(null); // Estado para el error
+
+  const validarCorreo = (correo: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(correo);
+  };
 
   const agregar = () => {
-    if (!nuevo.apartamento || !nuevo.nombre) return;
+    if (
+      !nuevo.apartamento ||
+      !nuevo.nombre ||
+      !nuevo.celular ||
+      !nuevo.correo
+    ) {
+      setError("Todos los campos son requeridos.");
+      return;
+    }
+
+    if (nuevo.celular.length > 10 || !/^\d+$/.test(nuevo.celular)) {
+      setError("El celular debe ser un número de hasta 10 dígitos.");
+      return;
+    }
+
+    if (!validarCorreo(nuevo.correo)) {
+      setError("El correo no tiene un formato válido.");
+      return;
+    }
+
+    // Validación contra duplicados
+    const existeDuplicado = propietarios.some(
+      (prop) =>
+        prop.apartamento === nuevo.apartamento ||
+        prop.nombre === nuevo.nombre ||
+        prop.celular === nuevo.celular ||
+        prop.correo === nuevo.correo
+    );
+
+    if (existeDuplicado) {
+      setError(
+        "Ya existe un propietario con el mismo apartamento, nombre, celular o correo."
+      );
+      return;
+    }
+
+    setError(null);
     setPropietarios([...propietarios, nuevo]);
     setNuevo({ apartamento: "", nombre: "", celular: "", correo: "" });
   };
@@ -57,6 +101,28 @@ export default function TablaPropietarios({
 
   const handleGuardarEdit = () => {
     if (editIndex === null || !editData) return;
+
+    // Validaciones para los datos editados
+    if (
+      !editData.apartamento ||
+      !editData.nombre ||
+      !editData.celular ||
+      !editData.correo
+    ) {
+      setError("Todos los campos son requeridos.");
+      return;
+    }
+
+    if (editData.celular.length > 10 || !/^\d+$/.test(editData.celular)) {
+      setError("El celular debe ser un número de hasta 10 dígitos.");
+      return;
+    }
+
+    if (!validarCorreo(editData.correo)) {
+      setError("El correo no tiene un formato válido.");
+      return;
+    }
+
     const nuevos = [...propietarios];
     nuevos[editIndex] = editData;
     setPropietarios(nuevos);
@@ -77,7 +143,9 @@ export default function TablaPropietarios({
   };
 
   const handleEliminarTorre = async () => {
-    const confirm = window.confirm("¿Estás seguro de que deseas eliminar esta torre?");
+    const confirm = window.confirm(
+      "¿Estás seguro de que deseas eliminar esta torre?"
+    );
     if (confirm) {
       await onEliminar(tabla.id);
       onVolver();
@@ -110,34 +178,52 @@ export default function TablaPropietarios({
         </div>
       )}
 
+      {error && (
+        <div className="mb-4 p-4 bg-red-100 text-red-800 rounded-md">
+          {error}
+        </div>
+      )}
+
       <div className="shadow-sm p-6 mb-6 bg-gray-50 rounded-md">
         <div className="flex flex-wrap gap-4 items-end">
           <input
             type="text"
             placeholder="Apartamento"
             value={nuevo.apartamento}
-            onChange={(e) => setNuevo({ ...nuevo, apartamento: e.currentTarget.value })}
+            onChange={(e) =>
+              setNuevo({ ...nuevo, apartamento: e.currentTarget.value })
+            }
             className="min-w-[120px] flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <input
             type="text"
             placeholder="Nombre"
             value={nuevo.nombre}
-            onChange={(e) => setNuevo({ ...nuevo, nombre: e.currentTarget.value })}
+            onChange={(e) =>
+              setNuevo({ ...nuevo, nombre: e.currentTarget.value })
+            }
             className="min-w-[150px] flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <input
             type="text"
             placeholder="Celular"
             value={nuevo.celular}
-            onChange={(e) => setNuevo({ ...nuevo, celular: e.currentTarget.value })}
+            onChange={(e) =>
+              setNuevo({
+                ...nuevo,
+                celular: e.currentTarget.value.replace(/\D/g, ""),
+              })
+            } // Solo números
+            maxLength={10} // Máximo 10 dígitos
             className="min-w-[140px] flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <input
             type="email"
             placeholder="Correo"
             value={nuevo.correo}
-            onChange={(e) => setNuevo({ ...nuevo, correo: e.currentTarget.value })}
+            onChange={(e) =>
+              setNuevo({ ...nuevo, correo: e.currentTarget.value })
+            }
             className="min-w-[180px] flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <button
@@ -162,14 +248,19 @@ export default function TablaPropietarios({
           </thead>
           <tbody>
             {propietarios.map((prop, index) => (
-              <tr key={index} className="odd:bg-white even:bg-gray-50 hover:bg-blue-50">
+              <tr
+                key={index}
+                className="odd:bg-white even:bg-gray-50 hover:bg-blue-50"
+              >
                 {editIndex === index ? (
                   <>
                     <td className="p-3 border">
                       <input
                         type="text"
                         value={editData?.apartamento || ""}
-                        onChange={(e) => handleInputChange("apartamento", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("apartamento", e.target.value)
+                        }
                         className="w-full p-1 border rounded"
                       />
                     </td>
@@ -177,7 +268,9 @@ export default function TablaPropietarios({
                       <input
                         type="text"
                         value={editData?.nombre || ""}
-                        onChange={(e) => handleInputChange("nombre", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("nombre", e.target.value)
+                        }
                         className="w-full p-1 border rounded"
                       />
                     </td>
@@ -185,7 +278,13 @@ export default function TablaPropietarios({
                       <input
                         type="text"
                         value={editData?.celular || ""}
-                        onChange={(e) => handleInputChange("celular", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "celular",
+                            e.target.value.replace(/\D/g, "")
+                          )
+                        } // Solo números
+                        maxLength={10} // Máximo 10 dígitos
                         className="w-full p-1 border rounded"
                       />
                     </td>
@@ -193,7 +292,9 @@ export default function TablaPropietarios({
                       <input
                         type="email"
                         value={editData?.correo || ""}
-                        onChange={(e) => handleInputChange("correo", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("correo", e.target.value)
+                        }
                         className="w-full p-1 border rounded"
                       />
                     </td>
